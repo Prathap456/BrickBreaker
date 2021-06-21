@@ -13,6 +13,7 @@ public class BallCollision : MonoBehaviour
     //float Count;
     public float SuperBrickCount;
     public int brickCount;
+    AudioSource audio;
 
     void Start()
     {
@@ -21,6 +22,7 @@ public class BallCollision : MonoBehaviour
         //Count = br.brick.Length;
         brickCount = GameObject.FindGameObjectsWithTag("Brick").Length;
         SuperBrickCount = GameObject.FindGameObjectsWithTag("SuperBrick").Length;
+        audio = GetComponent<AudioSource>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -39,11 +41,29 @@ public class BallCollision : MonoBehaviour
         {
             //Destroy(collision.gameObject);
             //Count = Count - 0.5f;
+            if (audio.isPlaying == false)
+            {
+                audio.Play();
+            }
+            else
+            {
+                audio.Stop();
+            }
             SuperBrickCount = SuperBrickCount - 0.5f;
+            
         }
         if(collision.gameObject.tag == "Brick")
         {
+            if (audio.isPlaying == false)
+            {
+                audio.Play();
+            }
+            else
+            {
+                audio.Stop();
+            }
             brickCount--;
+            
         }
         //if (Count <= 0)
         //{
@@ -52,7 +72,7 @@ public class BallCollision : MonoBehaviour
         //}
         if(SuperBrickCount <= 0 && brickCount<=0)
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(2);
         }
 
     }
@@ -61,7 +81,7 @@ public class BallCollision : MonoBehaviour
         if (collision.gameObject.tag == "Enemy")
         {
             Destroy(gameObject);
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(2);
             //print("Ball destroyed");
         }
     }
